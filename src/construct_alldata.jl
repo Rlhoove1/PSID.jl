@@ -156,7 +156,7 @@ function makePSID(userinput_json; codemissings = true, skip_verification = false
     fx = "$x/allfiles_hash.json"
     @assert isfile(fx)
     
-    # MODIFIED LINE: Passes the new keyword argument down to verifyfiles
+    # Check that this line is also updated:
     PSID.verifyfiles(fx, skip = skip_verification)
     
     isdir("output") || mkdir("output")
