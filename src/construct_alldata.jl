@@ -150,12 +150,15 @@ Arguments: `userinput_json` - A string naming the input JSON file
 Keyword arguments: `codemissings` - A bool indicating whether values detected as missing according to the codebook
  will be converted to `missing`. Defaults to true.
 """
-function makePSID(userinput_json; codemissings = true)
+function makePSID(userinput_json; codemissings = true, skip_verification = false)
     isfile(userinput_json) || error("$userinput_json not found in current directory")
     x = dirname(pathof(PSID))
     fx = "$x/allfiles_hash.json"
     @assert isfile(fx)
-    PSID.verifyfiles(fx)
+    
+    # MODIFIED LINE: Passes the new keyword argument down to verifyfiles
+    PSID.verifyfiles(fx, skip = skip_verification)
+    
     isdir("output") || mkdir("output")
     isdir("datafiles") || mkdir("datafiles")
     println("Making codebook")
@@ -167,3 +170,4 @@ function makePSID(userinput_json; codemissings = true)
     println("Constructing data")
     PSID.construct_alldata(famdatas, inddata, codemissings = codemissings)
 end
+
